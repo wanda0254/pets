@@ -175,7 +175,6 @@ public class CatalogActivity extends AppCompatActivity {
         // into the pets database table.
         // Receive the new content URI that will allow us to access Toto's data in the future.
         Uri newUri = getContentResolver().insert(PetContract.PetEntry.CONTENT_URI, values);
-
         // Insert a new row for Toto in the database, returning the ID of that new row.
         // The first argument for db.insert() is the pets table name.
         // The second argument provides the name of a column in which the framework

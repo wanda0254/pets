@@ -15,6 +15,7 @@ import static android.R.attr.name;
 import static android.R.attr.switchMinWidth;
 import static android.R.attr.theme;
 import static android.R.attr.updatePeriodMillis;
+import static android.R.attr.value;
 import static com.example.android.pets.PetDbHelper.LOG_TAG;
 
 /**
@@ -168,7 +169,7 @@ public class PetProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Insert the new pet with the given values
-        long id = database.insert(PetContract.PetEntry.TABLE_NAME, null, null);
+        long id = database.insert(PetContract.PetEntry.TABLE_NAME, null, contentValues);
         // If the ID is -1, then the insertion failed. Log an error and return null
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
@@ -225,7 +226,7 @@ public class PetProvider extends ContentProvider {
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
         // check that the name value is not null.
-        if (values.containsKey("name")) {
+        if (values.containsKey(PetContract.PetEntry.COLUMN_PET_NAME)) {
             String name = values.getAsString(PetContract.PetEntry.COLUMN_PET_NAME);
             if (name == null) {
                 throw new IllegalArgumentException("Pet requires a name");
@@ -233,7 +234,7 @@ public class PetProvider extends ContentProvider {
         }
         // If the {@link PetEntry#COLUMN_PET_GENDER} key is present,
         // check that the gender value is valid.
-        if (values.containsKey("gender")) {
+        if (values.containsKey(PetContract.PetEntry.COLUMN_PET_GENDER)) {
             Integer gender = values.getAsInteger(PetContract.PetEntry.COLUMN_PET_GENDER);
             if (gender == null || !PetContract.PetEntry.isValidGender(gender)) {
                 throw new IllegalArgumentException("Pet requires valid gender");
